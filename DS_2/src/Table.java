@@ -13,8 +13,9 @@ public class Table
             try
             {
                 System.out.println(c.getName() + "waits until the table is not empty...");
-                waitList.add(c);
-                wait();            }
+                Add(c);
+                wait();        
+            }
             catch (InterruptedException e) { }
         
         int value = table.get(0);
@@ -22,8 +23,8 @@ public class Table
             while(value != 1 && value != 2)
                 try
                 {
-                    System.out.println(c.getName() + "waits until Drink Consumer gets the drink from the table...");
-                    waitList.add(c);
+                    System.out.println(c.getName() + "waits until Drink Consumer gets the drink from the table... - Notify Drink Consumer");
+                    Add(c);
                     myNotify(c);
                     wait();
                     value = table.get(0);
@@ -33,15 +34,15 @@ public class Table
             while(value != 3 && value != 4)
                 try
                 {
-                    System.out.println(c.getName() + "waits until Food Consumer gets the food from the table...");
-                    waitList.add(c);
+                    System.out.println(c.getName() + "waits until Food Consumer gets the food from the table... - Notify Food Consumer");
+                    Add(c);
                     myNotify(c);
                     wait();   
                     value = table.get(0);
                 }
                 catch (InterruptedException e) { }
-        
-        System.out.println(c.getName() + "removes value " + value + " from the table");
+
+        System.out.println(c.getName() + "removes value " + value + " from the table - Notify Everyone");
         table.remove(0);
         isFull = false;
         
@@ -61,15 +62,14 @@ public class Table
             try
             {
                 System.out.println(p.getName() + "waits until the table is not full...");
-                waitList.add(p);
-                myNotify();
+                Add(p);
                 wait();
             }
             catch (InterruptedException e) { }
-        isEmpty = false;
         
+        System.out.println(p.getName() + "puts " + value + " on the table - Notify Consumers");
+        isEmpty = false;
         table.add(value);
-        System.out.println(p.getName() + "puts " + value + " on the table");
         
         if (table.size() == 3)
         {
@@ -81,7 +81,14 @@ public class Table
             System.out.print(i + " ");
         System.out.println();
 
-        myNotify();
+        myNotify(1);
+    }
+    
+    public void Add(Thread t)
+    {
+        waitList.add(t);
+        for(Thread t1 : waitList)
+            System.out.println("*" + t1.getName() + "*");
     }
     
     public void myNotify()
@@ -90,65 +97,34 @@ public class Table
             if(t.getState() == Thread.State.WAITING)
                 synchronized(t)
                 {
+                    waitList.remove(t);
                     t.notify();                        
+                    System.out.println(t.getName() + "notified!");
                 }
+    }
+    
+    public void myNotify(int toNotify)
+    {
+        if(toNotify == 1)
+            for(Thread t : waitList)
+                if(t instanceof Consumer && t.getState() == Thread.State.WAITING)
+                    synchronized(t)
+                    {
+                        waitList.remove(t);
+                        t.notify();
+                        System.out.println(t.getName() + "notified!");
+                    }
     }
     
     public void myNotify(Thread thread)
     {
-        if(thread instanceof Consumer)
-        {   
-            for(Thread t : waitList)
-                if(!t.getName().equals(thread.getName()) && thread.getState() == Thread.State.WAITING)
-                    synchronized(t)
-                    {
-                        t.notify();                        
-                    }
-        }
-        else
-        {
-            for(Thread t : waitList)
-                if(!t.getName().equals(thread.getName()) && thread.getState() == Thread.State.WAITING)
-                    synchronized(t)
-                    {
-                        t.notify();                        
-                    }
-        }
-        
-            
-    }
-    
-    
-    
-    /*public void myNotify(Thread thread, int i)
-    {
         for(Thread t : waitList)
-            if(i == 0)
-            {
-                if(t instanceof Producer)
-                    synchronized(t)
-                    {
-                        waitList.remove(t);
-                        System.out.println(t.getName() + "**");
-                        t.notify();
-                    }
-            }
-            else if(i == 1)
-            {
-                if(t instanceof Consumer && t.getName().equals(thread.getName()))
-                    synchronized(t)
-                    {
-                        waitList.remove(t);
-                        System.out.println(t.getName() + "**");
-                        t.notify();
-                    }
-            }
-            else
+            if(!t.getName().equals(thread.getName()) && thread.getState() == Thread.State.WAITING)
                 synchronized(t)
                 {
                     waitList.remove(t);
-                    System.out.println(t.getName() + "**");
                     t.notify();
+                    System.out.println(t.getName() + "notified!");
                 }
-    }*/
+    }
 }

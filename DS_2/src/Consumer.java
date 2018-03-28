@@ -23,7 +23,7 @@ public class Consumer extends Thread
             {
                 int ms = (int)(Math.random() * 1000);
                 sleep(ms);
-                System.out.println(getName() + "served " + table.get(this) + " and came back");
+                System.out.println(i + " " + getName() + "served " + table.get(this) + " and came back");
             }
             catch (InterruptedException e) { }      
     }

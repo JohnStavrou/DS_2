@@ -30,7 +30,7 @@ public class Producer extends Thread
             {
                 int ms = (int)(Math.random() * 1000);
                 sleep(ms);
-                System.out.println(getName() + "prepared " + value);
+                System.out.println(i + " " + getName() + "prepared " + value);
             }
             catch (InterruptedException e) { }
             

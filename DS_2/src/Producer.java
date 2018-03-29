@@ -12,6 +12,7 @@ public class Producer extends Thread
         this.table = table;
         this.id = id;
         
+        // Θέτω ονόματα στα threads ανάλογα με το ρόλο τους.
         if (id == 1)
             setName("Food Producer: ");
         else
@@ -23,13 +24,14 @@ public class Producer extends Thread
     public void run()
     {
         int value;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 20; i++)
         {
-            value = RandValue(id);
-            try
+            value = RandValue(id); /* Ανάλογα με το ρόλο του παραγωγού, παράγω τυχαία
+                                      ένα από τα 2 προϊόντα του. */
+            try                         
             {
-                int ms = (int)(Math.random() * 1000);
-                sleep(ms);
+                // Χρόνος που ξοδεύει ο παραγωγός για να ετοιμάσει κάτι κάθε φορά.
+                sleep((int)(Math.random() * 1000));
                 System.out.println(i + " " + getName() + "prepared " + value);
             }
             catch (InterruptedException e) { }

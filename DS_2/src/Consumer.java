@@ -8,6 +8,7 @@ public class Consumer extends Thread
         this.table = table;
         this.id = id;
         
+        // Θέτω ονόματα στα threads ανάλογα με το ρόλο τους.
         if (id == 1)
             setName("Food Consumer: ");
         else
@@ -21,8 +22,9 @@ public class Consumer extends Thread
         for (int i = 0; i < 5; i++)
             try
             {
-                int ms = (int)(Math.random() * 1000);
-                sleep(ms);
+                /* Χρόνος που ξοδεύει ο καταναλωτής για να σερβίρει κάτι και να επιστρέψει
+                   στον πάγκο. */
+                sleep((int)(Math.random() * 1000));
                 System.out.println(i + " " + getName() + "served " + table.get(this) + " and came back");
             }
             catch (InterruptedException e) { }      

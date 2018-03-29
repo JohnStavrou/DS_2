@@ -71,7 +71,7 @@ public class Table
         isEmpty = false;
         table.add(value);
         
-        if (table.size() == 3)
+        if (table.size() == 10)
         {
             isFull = true;
             System.out.println("The table is full!");

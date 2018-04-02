@@ -47,10 +47,10 @@ public class Table
         if (table.isEmpty())
         {
             isEmpty = true;
-            System.out.println("Το τραπέζι είναι άδειο!");
+            System.out.println("Ο πάγκος είναι άδειος!");
         }
-        
-        DisplayTable();
+        else
+            DisplayTable();
         
         notifyAll();
         
@@ -75,7 +75,7 @@ public class Table
         if (table.size() == 10)
         {
             isFull = true;
-            System.out.println("Το τραπέζι είναι γεμάτο!");
+            System.out.println("Ο πάγκος είναι γεμάτος!");
         }
         
         DisplayTable();

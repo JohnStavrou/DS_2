@@ -10,9 +10,9 @@ public class Consumer extends Thread
         
         // Θέτω ονόματα στα threads ανάλογα με το ρόλο τους.
         if (id == 1)
-            setName("Food Consumer: ");
+            setName("Σερβιτόρος Φαγητού: ");
         else
-            setName("Drink Consumer: ");
+            setName("Σερβιτόρος Ποτού: ");
     }
     
     public int GetId() { return id; }
@@ -25,8 +25,18 @@ public class Consumer extends Thread
                 /* Χρόνος που ξοδεύει ο καταναλωτής για να σερβίρει κάτι και να επιστρέψει
                    στον πάγκο. */
                 sleep((int)(Math.random() * 1000));
-                System.out.println(i + " " + getName() + "served " + table.get(this) + " and came back");
+                System.out.println(getName() + "σέρβιρε " + table.get(this) + " και επέστρεψε.");
             }
             catch (InterruptedException e) { }      
+    }
+    
+    /* Ελέγχει αν το προϊόν που δέχεται στο δεύτερο όρισμα είναι αρμοδιότητα του σερβιτόρου
+       που δέχεται στο πρώτο όρισμα. */
+    public boolean getType(int id, int value)
+    {
+        if(id == 1)
+            return value == 1 || value == 2;
+        else
+            return value == 3 || value == 4;
     }
 } 

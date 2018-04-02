@@ -14,32 +14,34 @@ public class Producer extends Thread
         
         // Θέτω ονόματα στα threads ανάλογα με το ρόλο τους.
         if (id == 1)
-            setName("Food Producer: ");
+            setName("Μάγειρας: ");
         else
-            setName("Drink Producer: ");
+            setName("Μπουφετζής: ");
     }
 
     public int GetId() { return id; }
     
     public void run()
     {
-        int value;
+        int food;
         for (int i = 0; i < 20; i++)
         {
-            value = RandValue(id); /* Ανάλογα με το ρόλο του παραγωγού, παράγω τυχαία
-                                      ένα από τα 2 προϊόντα του. */
+            food = RandValue(id);
             try                         
             {
                 // Χρόνος που ξοδεύει ο παραγωγός για να ετοιμάσει κάτι κάθε φορά.
                 sleep((int)(Math.random() * 1000));
-                System.out.println(i + " " + getName() + "prepared " + value);
+                System.out.println(getName() + "ετοίμασε " + food + ".");
             }
             catch (InterruptedException e) { }
             
-            table.put(this, value);
+            table.put(this, food);
         }
     }
     
+   /* Ανάλογα με το ρόλο του παραγωγού, παράγω τυχαία ένα από τα 2 προϊόντα του.
+      ~ Αν είναι μάγειρας: 1-Μακαρονάδα ή 2-Τοστ.
+      ~ Αν είναι μπουφετζής: 3-Καφές ή 4-Χυμός. */
     public int RandValue(int id)
     {
         if(id == 1)
